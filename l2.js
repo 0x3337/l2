@@ -1,8 +1,8 @@
 /**
  * Designed by Mirsaid Patarov
  * License: MIT license
- * Version: 0.3.1
- * Build: B0318
+ * Version: 0.4.0
+ * Build: 20C401
  */
 
 (function () {
@@ -33,32 +33,39 @@
     var url = options.url;
     var method = options.method || 'GET';
     var contentType = options.contentType || 'text/plain';
-    var data = options.data;
 
     var success = options.success;
 
+    var data = undefined;
+
+
+    if (options.json) {
+      method = 'POST';
+      contentType = 'application/json';
+      data = JSON.stringify(options.json);
+    } else if (options.form) {
+      contentType = 'multipart/form-data';
+    }
 
     var request = new XMLHttpRequest();
     request.withCredentials = true;
     request.onreadystatechange = function() {
       if (this.readyState == 4) {
         var resContentType = request.getResponseHeader('Content-type');
-        
-        success(/json/.test(resContentType) ? JSON.parse(this.response) : this.response);
+
+        if (/json/.test(resContentType)) {
+          success(JSON.parse(this.response));
+        } else {
+          success(this.response);
+        }
       }
     };
 
     request.open(method, url, true);
     request.setRequestHeader('Content-type', contentType);
 
-    if (data) {
-      if (/json/.test(contentType)) {
-        data = JSON.stringify(data);
-      }
-    }
-
     request.send(data);
-  }
+  };
 
   l2.create = function (...args) {
     var tag = undefined;
