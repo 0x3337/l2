@@ -131,6 +131,14 @@
   };
 
   l2.fn = init.prototype = {
+    size: function () {
+      if (this.elements) {
+        return this.elements.length;
+      } else {
+        return this.element ? 1 : 0;
+      }
+    },
+
     // Get element
     get: function (index) {
       if (this.elements) {
