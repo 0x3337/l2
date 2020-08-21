@@ -142,7 +142,7 @@
     // Get element
     get: function (index) {
       if (this.elements) {
-        return index ? this.elements[index] : this.elements[0];
+        return typeof index === 'number' ? this.elements[index] : this.elements;
       } else {
         return this.element;
       }
@@ -253,11 +253,16 @@
       }
     },
 
-    // Set/get Text
-    text: function (...args) {
-      if (args.length === 1) {
-        var text = args[0];
+    // Get value
+    val: function () {
+      if (this.element.nodeName.match(/input|select|textarea/i)) {
+        return this.element.value;
+      } else undefined;
+    },
 
+    // Set/get Text
+    text: function (text) {
+      if (text) {
         if (typeof text === 'string' || typeof text === 'number' || typeof text === 'boolean') {
           if (this.elements) {
             for (var i = 0; i < this.elements.length; i++) {
@@ -268,9 +273,7 @@
           }
         }
       } else {
-        if (this.element.nodeName === 'INPUT') {
-          return this.element.value;
-        } else return this.element.innerHTML;
+        return this.element.innerHTML;
       }
     },
 
