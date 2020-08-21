@@ -1,8 +1,8 @@
 /**
  * Designed by Mirsaid Patarov
  * License: MIT license
- * Version: 0.3.0
- * Build: B1117
+ * Version: 0.3.1
+ * Build: B0318
  */
 
 (function () {
@@ -12,19 +12,36 @@
     return new l2.prototype.init(selector);
   }
 
-  l2.request = function (url, data, cb) {
-    var cl = new XMLHttpRequest();
-    cl.withCredentials = true;
-    cl.onreadystatechange = function() {
+
+  l2.ajax = function (options) {
+    var url = options.url;
+    var method = options.method || 'GET';
+    var contentType = options.contentType || 'text/plain';
+    var data = options.data;
+
+    var success = options.success;
+
+
+    var request = new XMLHttpRequest();
+    request.withCredentials = true;
+    request.onreadystatechange = function() {
       if (this.readyState == 4) {
-        var type = cl.getResponseHeader('Content-type');
+        var resContentType = request.getResponseHeader('Content-type');
         
-        cb(/json/.test(type) ? JSON.parse(this.response) : this.response);
+        success(/json/.test(resContentType) ? JSON.parse(this.response) : this.response);
       }
     };
-    cl.open('POST', url, true);
-    cl.setRequestHeader('Content-type', 'application/json');
-    cl.send(JSON.stringify(data));
+
+    request.open(method, url, true);
+    request.setRequestHeader('Content-type', contentType);
+
+    if (data) {
+      if (/json/.test(contentType)) {
+        data = JSON.stringify(data);
+      }
+    }
+
+    request.send(data);
   }
 
   l2.create = function (...args) {
