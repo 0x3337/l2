@@ -12,6 +12,22 @@
     return new l2.prototype.init(selector);
   }
 
+  l2.key = {
+    backspace: 8,
+    enter: 13,
+
+    esc: 27,
+    
+    left: 37,
+    up: 38,
+    right: 39,
+    down: 40,
+
+    get: function (letter, press = false) {
+      var l = letter.charCodeAt(0);
+      return !press ? l : l.toLowerCase();
+    },
+  };
 
   l2.ajax = function (options) {
     var url = options.url;
