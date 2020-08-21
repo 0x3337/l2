@@ -67,6 +67,16 @@
     request.send(data);
   };
 
+  l2.hasElement = function (selector) {
+    var lElement = l2(selector);
+
+    return {
+      else: function (callback) {
+        return lElement.size() > 0 ? lElement.get() : callback();
+      }
+    }
+  };
+
   l2.create = function (...args) {
     var tag = undefined;
 
