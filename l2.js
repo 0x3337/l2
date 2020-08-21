@@ -283,8 +283,26 @@
       } else undefined;
     },
 
-    // Set/get Text
-    text: function (text) {
+    // Set/get text
+    text: function (text, defaultText = '') {
+      var str = text || defaultText;
+
+      if (str !== undefined && str !== null) {
+        if (typeof str === 'string' || typeof str === 'number' || typeof str === 'boolean') {
+          if (this.elements) {
+            for (var i = 0; i < this.elements.length; i++) {
+              this.elements[i].innerText = str;
+            }
+          } else {
+            this.element.innerText = str;
+          }
+        }
+      } else if (!this.elements) {
+        return this.element.innerText;
+      }
+    },
+
+    html: function (text) {
       if (text) {
         if (typeof text === 'string' || typeof text === 'number' || typeof text === 'boolean') {
           if (this.elements) {
