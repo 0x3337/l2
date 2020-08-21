@@ -103,6 +103,12 @@
     return tag;
   }
 
+  l2.createFromHTML = function (htmlString) {
+    var div = document.createElement('div');
+    div.innerHTML = htmlString.trim();
+    return div.firstChild; 
+  };
+
   // Set/get cookie
   l2.cookie = function (name, value, expires) {
     if (value === undefined) {
