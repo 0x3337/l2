@@ -318,6 +318,20 @@
       }
     },
 
+    contains: function (element) {
+      if (this.elements) {
+        for (var i = 0; i < this.elements.length; i++) {
+          if (this.elements[i].contains(element)) {
+            return true;
+          }
+        }
+
+        return false;
+      } else {
+        return this.element.contains(element);
+      }
+    },
+
     // Append child
     append: function (ch) {
       if (this.elements) {
