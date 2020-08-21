@@ -10,7 +10,7 @@
 
   var l2 = function (selector) {
     return new l2.prototype.init(selector);
-  }
+  };
 
   l2.key = {
     backspace: 8,
@@ -101,7 +101,7 @@
     }
 
     return tag;
-  }
+  };
 
   l2.createFromHTML = function (htmlString) {
     var div = document.createElement('div');
@@ -129,14 +129,14 @@
       var expires = "expires="+ d.toUTCString();
       document.cookie = name + "=" + value + ";" + expires + ";path=/";
     }
-  },
+  };
 
   // Remove cookie
   l2.removeCookie = function (name) {
     if (getCookie(name) !== undefined) {
       document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
-  }
+  };
 
   var init = l2.prototype.init = function (selector) {
     if (selector) {
@@ -204,23 +204,23 @@
     },
 
     // On some event
-    on: function (options, cb) {
+    on: function (options, listener) {
       if (this.elements) {
         for (var i = 0; i < this.elements.length; i++) {
           if (typeof options === 'string') {
-            this.elements[i].addEventListener(options, cb);
+            this.elements[i].addEventListener(options, listener);
           } else if (typeof options === 'object') {
-            this.elements[i].addEventListener(options.event, function () {
-              cb(options.data);
+            this.elements[i].addEventListener(options.event, function (event) {
+              listener(event, options.data);
             });
           }
         }
       } else {
         if (typeof options === 'string') {
-          this.element.addEventListener(options, cb);
+          this.element.addEventListener(options, listener);
         } else if (typeof options === 'object') {
-          this.element.addEventListener(options.event, function () {
-            cb(options.data);
+          this.element.addEventListener(options.event, function (event) {
+            listener(event, options.data);
           });
         }
       }
