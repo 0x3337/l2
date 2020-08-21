@@ -1,8 +1,8 @@
 /**
  * Designed by Mirsaid Patarov
  * License: MIT license
- * Version: 0.2.0
- * Build: E1017
+ * Version: 0.3.0
+ * Build: B1117
  */
 
 (function () {
@@ -140,12 +140,26 @@
     },
 
     // On some event
-    on: function (event, cb) {
+    on: function (options, cb) {
       if (this.elements) {
         for (var i = 0; i < this.elements.length; i++) {
-          this.elements[i].addEventListener(event, cb);
+          if (typeof options === 'string') {
+            this.elements[i].addEventListener(options, cb);
+          } else if (typeof options === 'object') {
+            this.elements[i].addEventListener(options.event, function () {
+              cb(options.data);
+            });
+          }
         }
-      } else this.element.addEventListener(event, cb);
+      } else {
+        if (typeof options === 'string') {
+          this.element.addEventListener(options, cb);
+        } else if (typeof options === 'object') {
+          this.element.addEventListener(options.event, function () {
+            cb(options.data);
+          });
+        }
+      }
 
       return this;
     },
