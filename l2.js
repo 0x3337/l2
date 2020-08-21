@@ -354,7 +354,15 @@
       } else this.text('');
 
       return this;
-    }
+    },
+
+    delete: function () {
+      if (this.elements) {
+        for (var i = 0; i < this.elements.length; i++) {
+          this.elements[i].parentNode.removeChild(this.elements[i]);
+        }
+      } else this.element.parentNode.removeChild(this.element);
+    },
   }
 
   window.l2 = l2;
